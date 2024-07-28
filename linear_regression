@@ -1,0 +1,48 @@
+import pandas as pd
+import numpy as np
+a=pd.read_csv("/content/simplelinearregression.csv")
+a
+a.head(5)
+a.tail(5)
+a.info()
+a.describe()
+a.size
+a.shape
+a.columns
+a.dtypes
+a.isnull()
+a.isnull().sum()
+a.isnull().sum().sum()
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.title("premium distribution")
+sns.distplot(a["Premium"],color="green")
+plt.show()
+
+sns.barplot(x='Age', y='Premium', data=a, palette='viridis')
+plt.title("Age Vs Premium")
+plt.xlabel("Age")
+plt.ylabel("Premium")
+plt.show()
+
+x=a["Age"].values.reshape(-1, 1) 
+y=a["Premium"].values
+
+from sklearn.model_selection import train_test_split
+
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=1)
+
+from sklearn.linear_model import LinearRegression
+model=LinearRegression()
+model.fit(x_train,y_train)
+
+y_pred=model.predict(x_test)
+
+from sklearn.metrics import mean_squared_error,r2_score
+mse=mean_squared_error(y_test,y_pred)
+r2=r2_score(y_test,y_pred)
+
+print(mse)
+print(r2)
